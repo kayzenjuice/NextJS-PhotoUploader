@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import React from "react";
 
 export default function PhotoCard() {
@@ -7,10 +8,12 @@ export default function PhotoCard() {
     <div className="flex justify-center">
       <div className="rounded-lg shadow-lg bg-white max-w-sm">
         <a href="#!">
-          <img
+          <Image
             className="rounded-t-lg"
             src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
             alt=""
+            width={450}
+            height={600}
           />
         </a>
         <div className="p-6">
