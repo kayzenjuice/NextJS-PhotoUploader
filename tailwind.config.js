@@ -699,5 +699,5 @@ module.exports = {
     zIndex: ["responsive", "focus-within", "focus"],
   },
   corePlugins: {},
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin")],
 };
