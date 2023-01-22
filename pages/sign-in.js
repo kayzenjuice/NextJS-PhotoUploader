@@ -15,7 +15,6 @@ export default function SignInPage() {
       ...prevState,
       [e.target.id]: e.target.value,
     }));
-    console.log(formData);
   }
 
   async function onSubmit(e) {

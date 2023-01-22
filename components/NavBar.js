@@ -8,9 +8,6 @@ import { auth } from "@/config/firebase";
 export default function NavBar() {
   const { user, logout } = useAuth();
 
-  useEffect(() => {
-    console.log("[NAVBAR]", user);
-  }, []);
   const router = useRouter();
   const [showPanel, setShowPanel] = useState(false);
 

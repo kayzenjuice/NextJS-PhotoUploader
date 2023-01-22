@@ -17,8 +17,6 @@ export const AuthContextProvider = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("API KEY", process.env.NEXT_PUBLIC_apiKey);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -40,7 +38,6 @@ export const AuthContextProvider = ({ children }) => {
     let userCreds;
     try {
       userCreds = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("[SIGNUP]", userCreds);
       toast.success("Sign up was successful");
       router.push("/");
       return userCreds;

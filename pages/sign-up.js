@@ -26,7 +26,6 @@ export default function SignUpPage() {
 
   async function onSubmit(e) {
     e.preventDefault();
-    console.log("CLICKED");
 
     if (password === confirmPassword) {
       const currentUser = await signUp(email, password);
