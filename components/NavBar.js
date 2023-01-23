@@ -19,6 +19,7 @@ export default function NavBar() {
             <div className="w-auto mr-14">
               <img
                 src="assets/logo-black.svg"
+                className="cursor-pointer"
                 onClick={() => router.push("/")}
                 alt=""
               />
@@ -103,6 +104,7 @@ export default function NavBar() {
                     <img
                       src="assets/logo-black.svg"
                       onClick={() => router.push("/")}
+                      className="cursor-pointer"
                       alt=""
                     />
                   </a>

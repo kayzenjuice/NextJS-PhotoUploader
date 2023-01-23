@@ -3,24 +3,25 @@
 import Image from "next/image";
 import React from "react";
 
-export default function PhotoCard() {
+export default function PhotoCard({ photo }) {
   return (
     <div className="flex justify-center">
       <div className="rounded-lg shadow-lg bg-white max-w-sm">
         <a href="#!">
           <Image
             className="rounded-t-lg"
-            src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
+            src={photo?.data.img[0]}
             alt=""
             width={450}
             height={600}
           />
         </a>
         <div className="p-6">
-          <h5 className="text-gray-900 text-xl font-medium mb-2">Card title</h5>
+          <h5 className="text-gray-900 text-xl font-medium mb-2">
+            {photo?.data.photoName}
+          </h5>
           <p className="text-gray-700 text-base mb-4">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {photo?.data.description}
           </p>
           <button
             type="button"

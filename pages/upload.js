@@ -1,13 +1,23 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
+import UploadPhoto from "@/utils/uploader";
+import { toast } from "react-toastify";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "@/config/firebase";
+import { useRouter } from "next/router";
+import Spinner from "@/components/Spinner";
 
 export default function upload() {
+  const router = useRouter();
   const [uploadData, setUploadData] = useState({
     photoName: "",
     description: "",
-    imageUrl: "",
+    imageUrl: {},
   });
 
   const { photoName, description, imageUrl } = uploadData;
+
+  const [loading, setLoading] = useState(false);
 
   function onChange(e) {
     if (e.target.files) {
@@ -18,8 +28,48 @@ export default function upload() {
     }
 
     if (!e.target.files) {
-      setUploadData((prevState) => ({}));
+      setUploadData((prevState) => ({
+        ...prevState,
+        [e.target.id]: e.target.value,
+      }));
     }
+
+    console.log(uploadData);
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    const img = await Promise.all(
+      // loop through all form images and start uploading it to firebase storage, using storeImage
+      [...imageUrl].map((image) =>
+        UploadPhoto(image).catch((error) => {
+          setLoading(false);
+          toast.error("Images not uploaded");
+          throw error;
+        })
+      )
+    );
+
+    const uploadDataCopy = {
+      ...uploadData,
+      img,
+      timestamp: serverTimestamp(),
+      userRef: auth.currentUser.uid,
+      userDisplayName: auth.currentUser.displayName,
+    };
+
+    delete uploadDataCopy.imageUrl;
+
+    const docRef = await addDoc(collection(db, "photos"), uploadDataCopy);
+    setLoading(false);
+    toast.success("Photo Uploaded");
+    router.push("/");
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
@@ -29,18 +79,20 @@ export default function upload() {
           <div class="w-full px-4">
             <div class="px-8 md:px-16 pt-16 pb-8 rounded-xl">
               <div class="max-w-xl mx-auto">
-                <form action="">
+                <form onSubmit={onSubmit}>
                   <div class="flex flex-wrap -mx-4 -mb-10">
                     <div class="w-full  px-4 mb-10">
                       <div class="relative w-full h-14 py-4 px-3 border border-black hover:border-gray-600 focus-within:border-indigo-700 rounded-lg">
                         <span class="absolute bottom-full left-0 ml-3 -mb-1 transform translate-y-0.5 text-xs font-semibold text-gray-300 px-1 bg-gray-500">
-                          First Name
+                          Photo Name
                         </span>
                         <input
                           class="block w-full outline-none bg-transparent text-black placeholder-black font-semibold"
-                          id="formInput2-1"
+                          id="photoName"
                           type="text"
-                          placeholder="John"
+                          value={photoName}
+                          onChange={onChange}
+                          placeholder="Photo Name"
                         />
                       </div>
                     </div>
@@ -48,15 +100,17 @@ export default function upload() {
                     <div class="w-full px-4 mb-10">
                       <div class="relative w-full py-4 px-3 border border-black hover:border-gray-600 focus-within:border-indigo-700 rounded-lg">
                         <span class="absolute bottom-full left-0 ml-3 -mb-1 transform translate-y-0.5 text-xs font-semibold text-gray-300 px-1 bg-gray-500">
-                          Last Name
+                          Description
                         </span>
                         <textarea
                           class="block w-full h-64 outline-none bg-transparent text-black placeholder-black font-semibold resize-none"
-                          id="formInput2-5"
-                          name=""
+                          id="description"
+                          type="text"
+                          value={description}
+                          onChange={onChange}
                           cols="30"
                           rows="10"
-                          placeholder="Lorem ipsum dolor sit amet"
+                          placeholder="Description of photo"
                         ></textarea>
                       </div>
                     </div>
@@ -80,8 +134,11 @@ export default function upload() {
                             </div>
                             <input
                               class="absolute top-0 left-0 h-14 w-14 opacity-0"
-                              id="formInput2-6"
+                              id="imageUrl"
                               type="file"
+                              onChange={onChange}
+                              accept=".jpg,.png,.jpeg"
+                              required
                               name="filephoto"
                             />
                           </div>
