@@ -9,6 +9,19 @@ export default function upload() {
 
   const { photoName, description, imageUrl } = uploadData;
 
+  function onChange(e) {
+    if (e.target.files) {
+      setUploadData((prevState) => ({
+        ...prevState,
+        imageUrl: e.target.files,
+      }));
+    }
+
+    if (!e.target.files) {
+      setUploadData((prevState) => ({}));
+    }
+  }
+
   return (
     <section class="py-8">
       <div class="container px-4 mx-auto">
