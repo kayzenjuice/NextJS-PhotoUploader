@@ -18,8 +18,8 @@ export default function NavBar() {
           <div className="flex flex-wrap items-center">
             <div className="w-auto mr-14">
               <img
-                src="assets/logo-black.svg"
-                className="cursor-pointer"
+                src="assets/Logonew.png"
+                className="animate-in slide-in-from-top duration-500 cursor-pointer w-48"
                 onClick={() => router.push("/")}
                 alt=""
               />
@@ -102,7 +102,7 @@ export default function NavBar() {
                 <div className="w-auto p-2">
                   <a className="inline-block" href="#">
                     <img
-                      src="assets/logo-black.svg"
+                      src="assets/Logonew.png"
                       onClick={() => router.push("/")}
                       className="cursor-pointer"
                       alt=""

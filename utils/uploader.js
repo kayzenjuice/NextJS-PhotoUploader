@@ -12,6 +12,8 @@ export default async function UploadPhoto(image) {
   return new Promise((resolve, reject) => {
     const storage = getStorage();
     const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+    console.log("[UPLOAD PHOTO]", storage);
+    console.log("[UPLOAD PHOTO]", filename);
     const storageRef = ref(storage, filename);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(

@@ -699,5 +699,5 @@ module.exports = {
     zIndex: ["responsive", "focus-within", "focus"],
   },
   corePlugins: {},
-  plugins: [require("tw-elements/dist/plugin")],
+  plugins: [require("tailwindcss-animate"), require("tw-elements/dist/plugin")],
 };

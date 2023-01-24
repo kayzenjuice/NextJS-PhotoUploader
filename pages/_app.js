@@ -1,5 +1,6 @@
 import NavBar from "@/components/NavBar";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Title from "@/components/Title";
 import { AuthContextProvider } from "@/context/AuthContext";
 import "@/styles/globals.css";
 import { useRouter } from "next/router";
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <AuthContextProvider>
+      <Title text={"Uploadify"} />
       <NavBar />
       {AuthRequired.includes(router.pathname) ? (
         <ProtectedRoute>
